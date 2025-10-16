@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -23,6 +23,21 @@ interface Privilege {
 
 export default function Index() {
   const [activeSection, setActiveSection] = useState('hero');
+  const [onlinePlayers, setOnlinePlayers] = useState(147);
+  const [maxPlayers] = useState(200);
+  const [serverStatus, setServerStatus] = useState<'online' | 'offline'>('online');
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setOnlinePlayers(prev => {
+        const change = Math.floor(Math.random() * 7) - 3;
+        const newValue = prev + change;
+        return Math.max(120, Math.min(195, newValue));
+      });
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   const shopItems: ShopItem[] = [
     { id: 1, name: 'AK-47', price: 200, category: 'Оружие', image: '' },
@@ -137,6 +152,27 @@ export default function Index() {
             <p className="text-lg md:text-xl text-foreground mb-8 max-w-2xl mx-auto">
               Лучший магазин игровых предметов и привилегий для Rust. Мгновенная доставка, безопасные платежи, 24/7 поддержка.
             </p>
+            <div className="mb-8 inline-flex items-center gap-4 bg-background/90 backdrop-blur-sm px-8 py-4 rounded-lg border border-primary/50">
+              <div className="flex items-center gap-3">
+                <div className="relative">
+                  <Icon name="Radio" size={24} className="text-primary animate-pulse" />
+                  <div className="absolute inset-0 bg-primary/30 rounded-full animate-ping" />
+                </div>
+                <div className="text-left">
+                  <div className="text-xs text-muted-foreground uppercase tracking-wider">Онлайн сейчас</div>
+                  <div className="text-3xl font-display font-bold text-primary transition-all duration-300">
+                    {onlinePlayers} <span className="text-lg text-muted-foreground">/ {maxPlayers}</span>
+                  </div>
+                </div>
+              </div>
+              <div className="h-12 w-px bg-border" />
+              <div className="flex items-center gap-2">
+                <div className={`w-3 h-3 rounded-full ${serverStatus === 'online' ? 'bg-green-500' : 'bg-red-500'} animate-pulse`} />
+                <span className="text-sm font-medium">
+                  {serverStatus === 'online' ? 'Сервер работает' : 'Оффлайн'}
+                </span>
+              </div>
+            </div>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button size="lg" className="text-lg" onClick={() => scrollToSection('shop')}>
                 <Icon name="Package" size={20} className="mr-2" />
@@ -272,7 +308,7 @@ export default function Index() {
             </Card>
           </div>
           
-          <div className="mt-12 max-w-4xl mx-auto">
+          <div className="mt-12 max-w-6xl mx-auto grid lg:grid-cols-2 gap-8">
             <Card className="bg-card border border-border">
               <CardHeader>
                 <CardTitle className="font-display text-xl flex items-center gap-2">
@@ -280,7 +316,7 @@ export default function Index() {
                   Информация о вайпах
                 </CardTitle>
               </CardHeader>
-              <CardContent className="grid md:grid-cols-3 gap-6">
+              <CardContent className="grid grid-cols-1 gap-6">
                 <div className="text-center p-4 bg-muted/30 rounded-lg">
                   <Icon name="RotateCcw" size={32} className="mx-auto mb-2 text-primary" />
                   <h3 className="font-display font-semibold mb-1">Периодичность</h3>
@@ -295,6 +331,57 @@ export default function Index() {
                   <Icon name="Server" size={32} className="mx-auto mb-2 text-primary" />
                   <h3 className="font-display font-semibold mb-1">Регион</h3>
                   <p className="text-sm text-muted-foreground">EU / Москва</p>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="bg-card border-2 border-primary">
+              <CardHeader>
+                <CardTitle className="font-display text-xl flex items-center gap-2">
+                  <Icon name="Activity" size={24} className="text-primary" />
+                  Статистика онлайна
+                </CardTitle>
+                <CardDescription>В реальном времени</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <div className="bg-muted/30 p-6 rounded-lg">
+                  <div className="flex items-center justify-between mb-4">
+                    <div>
+                      <div className="text-sm text-muted-foreground mb-1">Онлайн сейчас</div>
+                      <div className="text-4xl font-display font-bold text-primary">{onlinePlayers}</div>
+                    </div>
+                    <div className="text-right">
+                      <div className="text-sm text-muted-foreground mb-1">Максимум</div>
+                      <div className="text-2xl font-display font-bold">{maxPlayers}</div>
+                    </div>
+                  </div>
+                  <div className="relative h-3 bg-secondary rounded-full overflow-hidden">
+                    <div 
+                      className="absolute inset-y-0 left-0 bg-gradient-to-r from-primary to-orange-500 transition-all duration-500 ease-out"
+                      style={{ width: `${(onlinePlayers / maxPlayers) * 100}%` }}
+                    />
+                  </div>
+                  <div className="mt-2 text-xs text-muted-foreground text-center">
+                    Заполненность: {Math.round((onlinePlayers / maxPlayers) * 100)}%
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="bg-muted/30 p-4 rounded-lg text-center">
+                    <Icon name="TrendingUp" size={24} className="mx-auto mb-2 text-green-500" />
+                    <div className="text-sm text-muted-foreground mb-1">Пик за день</div>
+                    <div className="text-2xl font-display font-bold">189</div>
+                  </div>
+                  <div className="bg-muted/30 p-4 rounded-lg text-center">
+                    <Icon name="Clock" size={24} className="mx-auto mb-2 text-primary" />
+                    <div className="text-sm text-muted-foreground mb-1">Средний онлайн</div>
+                    <div className="text-2xl font-display font-bold">156</div>
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-center gap-2 text-xs text-muted-foreground">
+                  <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+                  <span>Обновляется каждые 3 секунды</span>
                 </div>
               </CardContent>
             </Card>
