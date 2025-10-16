@@ -79,6 +79,14 @@ export default function Index() {
             </h1>
             <div className="flex items-center gap-2 md:gap-6">
               <button
+                onClick={() => scrollToSection('maps')}
+                className={`text-sm md:text-base font-medium transition-colors hover:text-primary ${
+                  activeSection === 'maps' ? 'text-primary' : 'text-foreground'
+                }`}
+              >
+                Карты
+              </button>
+              <button
                 onClick={() => scrollToSection('shop')}
                 className={`text-sm md:text-base font-medium transition-colors hover:text-primary ${
                   activeSection === 'shop' ? 'text-primary' : 'text-foreground'
@@ -153,6 +161,143 @@ export default function Index() {
                 <p className="text-sm text-muted-foreground">{item.desc}</p>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="maps" className="py-20 px-4">
+        <div className="container mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-5xl font-display font-bold mb-4">КАРТЫ ВАЙПОВ</h2>
+            <p className="text-muted-foreground text-lg">Изучи карту текущего сервера и готовься к следующему вайпу</p>
+          </div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
+            <Card className="overflow-hidden border-2 border-primary bg-card">
+              <CardHeader className="bg-primary/10 border-b border-primary">
+                <div className="flex items-center justify-between">
+                  <CardTitle className="font-display text-2xl flex items-center gap-3">
+                    <Icon name="MapPin" size={28} className="text-primary" />
+                    ТЕКУЩИЙ ВАЙП
+                  </CardTitle>
+                  <Badge className="bg-primary text-primary-foreground">
+                    <Icon name="Circle" size={12} className="mr-1" />
+                    LIVE
+                  </Badge>
+                </div>
+                <CardDescription className="text-base mt-2">
+                  Активна до: 20 октября 2024
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="p-0">
+                <div className="relative aspect-square bg-secondary/30">
+                  <img 
+                    src="https://cdn.poehali.dev/projects/18ad1e1d-2995-4d34-a441-f143f61f0bb3/files/764ac497-5eb3-4582-8657-f529e0cad2b9.jpg"
+                    alt="Текущая карта"
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute top-4 left-4 bg-background/90 px-4 py-2 rounded-md border border-border">
+                    <div className="text-xs text-muted-foreground">Размер карты</div>
+                    <div className="text-lg font-display font-bold text-primary">4000x4000</div>
+                  </div>
+                  <div className="absolute bottom-4 left-4 bg-background/90 px-4 py-2 rounded-md border border-border">
+                    <div className="text-xs text-muted-foreground">Seed</div>
+                    <div className="text-sm font-display font-semibold">1234567890</div>
+                  </div>
+                </div>
+              </CardContent>
+              <CardFooter className="bg-muted/50 flex gap-2">
+                <Button className="flex-1">
+                  <Icon name="Download" size={16} className="mr-2" />
+                  Скачать карту
+                </Button>
+                <Button variant="outline" className="flex-1">
+                  <Icon name="ExternalLink" size={16} className="mr-2" />
+                  Открыть в RustMaps
+                </Button>
+              </CardFooter>
+            </Card>
+
+            <Card className="overflow-hidden border-2 border-border bg-card">
+              <CardHeader className="bg-muted/50 border-b border-border">
+                <div className="flex items-center justify-between">
+                  <CardTitle className="font-display text-2xl flex items-center gap-3">
+                    <Icon name="Calendar" size={28} className="text-foreground" />
+                    СЛЕДУЮЩИЙ ВАЙП
+                  </CardTitle>
+                  <Badge variant="outline" className="border-primary text-primary">
+                    <Icon name="Clock" size={12} className="mr-1" />
+                    СКОРО
+                  </Badge>
+                </div>
+                <CardDescription className="text-base mt-2">
+                  Старт: 27 октября 2024, 18:00
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="p-0">
+                <div className="relative aspect-square bg-secondary/30">
+                  <img 
+                    src="https://cdn.poehali.dev/projects/18ad1e1d-2995-4d34-a441-f143f61f0bb3/files/e757bf69-102e-45e1-aa36-ba4213300856.jpg"
+                    alt="Следующая карта"
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute top-4 left-4 bg-background/90 px-4 py-2 rounded-md border border-border">
+                    <div className="text-xs text-muted-foreground">Размер карты</div>
+                    <div className="text-lg font-display font-bold text-primary">4500x4500</div>
+                  </div>
+                  <div className="absolute bottom-4 left-4 bg-background/90 px-4 py-2 rounded-md border border-border">
+                    <div className="text-xs text-muted-foreground">Seed</div>
+                    <div className="text-sm font-display font-semibold">9876543210</div>
+                  </div>
+                  <div className="absolute inset-0 bg-black/20 backdrop-blur-[2px] flex items-center justify-center">
+                    <div className="bg-background/95 px-8 py-4 rounded-lg border-2 border-primary">
+                      <div className="text-center">
+                        <Icon name="Lock" size={32} className="mx-auto mb-2 text-primary" />
+                        <p className="font-display font-bold text-lg">Откроется через</p>
+                        <p className="text-3xl font-display font-bold text-primary">7 дней</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+              <CardFooter className="bg-muted/50 flex gap-2">
+                <Button variant="outline" className="flex-1" disabled>
+                  <Icon name="Download" size={16} className="mr-2" />
+                  Скачать карту
+                </Button>
+                <Button variant="outline" className="flex-1" disabled>
+                  <Icon name="ExternalLink" size={16} className="mr-2" />
+                  Открыть в RustMaps
+                </Button>
+              </CardFooter>
+            </Card>
+          </div>
+          
+          <div className="mt-12 max-w-4xl mx-auto">
+            <Card className="bg-card border border-border">
+              <CardHeader>
+                <CardTitle className="font-display text-xl flex items-center gap-2">
+                  <Icon name="Info" size={24} className="text-primary" />
+                  Информация о вайпах
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="grid md:grid-cols-3 gap-6">
+                <div className="text-center p-4 bg-muted/30 rounded-lg">
+                  <Icon name="RotateCcw" size={32} className="mx-auto mb-2 text-primary" />
+                  <h3 className="font-display font-semibold mb-1">Периодичность</h3>
+                  <p className="text-sm text-muted-foreground">Каждый четверг в 18:00</p>
+                </div>
+                <div className="text-center p-4 bg-muted/30 rounded-lg">
+                  <Icon name="Users" size={32} className="mx-auto mb-2 text-primary" />
+                  <h3 className="font-display font-semibold mb-1">Макс. игроков</h3>
+                  <p className="text-sm text-muted-foreground">200 человек онлайн</p>
+                </div>
+                <div className="text-center p-4 bg-muted/30 rounded-lg">
+                  <Icon name="Server" size={32} className="mx-auto mb-2 text-primary" />
+                  <h3 className="font-display font-semibold mb-1">Регион</h3>
+                  <p className="text-sm text-muted-foreground">EU / Москва</p>
+                </div>
+              </CardContent>
+            </Card>
           </div>
         </div>
       </section>
